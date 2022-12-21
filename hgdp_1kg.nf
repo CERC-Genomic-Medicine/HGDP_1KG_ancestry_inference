@@ -1,7 +1,3 @@
-// params.input_ref = "../gnomad_v3/vcfs/test/*"
-// params.input_study = "../gnomad_v3/vcfs/test2/*"
-
-// params.input_ref = "~/projects/rrg-vmooser/shared/gnomad.genomes.v3.1.2.hgdp_tgp/filtered_pruned/*.vcf"
 params.input_ref = "/lustre06/project/rrg-vmooser/shared/gnomad.genomes.v3.1.2.hgdp_tgp/filtered_pruned/chr*.vcf"
 params.input_study = "/lustre06/project/rrg-vmooser/shared/BQC19_HLA/VCFs/*.vcf*"
 
