@@ -1,5 +1,6 @@
-params.input_ref = "/lustre06/project/rrg-vmooser/shared/gnomad.genomes.v3.1.2.hgdp_tgp/filtered_pruned/chr*.vcf"
-params.input_study = "/lustre06/project/rrg-vmooser/shared/BQC19_HLA/VCFs/*.vcf*"
+// requires vcf.gz format
+params.input_ref = "/lustre06/project/rrg-vmooser/shared/gnomad.genomes.v3.1.2.hgdp_tgp/filtered_pruned/chr*.vcf.gz"
+params.input_study = "/lustre06/project/rrg-vmooser/shared/BQC19_HLA/VCFs/*.vcf.gz"
 
 process intersect {
   debug true
@@ -8,7 +9,7 @@ process intersect {
 
   script:
   """
-  echo your_command --batch $chr --input $ref --study $study
+  bcftools isec -n=2 -p isec -Oz -o $chr-isec $ref $study
   """
 } 
 
