@@ -4,12 +4,16 @@ params.input_study = "../VCFs-BQC19/chr*.vcf.gz"
 
 process intersect {
   debug true
+  
   input:
   tuple val(chr), path(ref), path(ref_tbi), path(study), path(study_tbi)
+  
+  output:
+  path("./${chr}-isec/000*.vcf.gz*"),
 
   script:
   """
-  bcftools isec -n=2 -p $chr-isec -Oz -o $chr-isec $ref $study
+  bcftools isec -n=2 -p $chr-isec -Oz $ref $study
   """
 } 
 
