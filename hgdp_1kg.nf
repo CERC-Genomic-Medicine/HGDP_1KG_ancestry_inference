@@ -58,6 +58,10 @@ process convert_geno {
   
   input:
   path "reference.vcf.gz"
+  
+  output:
+  path("reference.geno"), emit: reference_geno
+  path("reference.site"), emit: reference_site
 
   script:
   """
@@ -71,6 +75,11 @@ process convert_geno2 {
 
   input:
   path "study.vcf.gz"
+  
+  output:
+  path("study.geno"), emit: study_geno
+  path("study.site"), emit: study_site
+
 
   script:
   """
@@ -95,7 +104,7 @@ vcfs = intersect(input)
 reference_vcf = merge_ref(vcfs.reference_vcfs.collect())
 study_vcf = merge_study(vcfs.study_vcfs.collect())
 
-ref_geno = convert_geno(reference_vcf)
+reference_geno = convert_geno(reference_vcf)
 study_geno = convert_geno2(study_vcf)
 
 }
