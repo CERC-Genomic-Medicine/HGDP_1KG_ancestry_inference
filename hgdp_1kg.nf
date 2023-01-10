@@ -4,8 +4,6 @@ params.input_study = "../VCFs-BQC19/chr*.vcf.gz"
 params.path_to_laser = "~/scratch/LASER-2.04"
 
 process intersect {
-  debug true
-  
   input:
   tuple val(chr), path(ref), path(ref_tbi), path(study), path(study_tbi)
   
@@ -23,8 +21,6 @@ process intersect {
 } 
 
 process merge_ref {
-  debug true
-  
   input:
   path "chr*.ref.vcf.gz" 
 
@@ -38,8 +34,6 @@ process merge_ref {
 } 
 
 process merge_study {
-  debug true
-
   input:
   path "chr*.study.vcf.gz"
 
@@ -53,15 +47,13 @@ process merge_study {
 } 
 
 process convert_geno {
-  debug true
   memory "64GB"
   
   input:
   path "reference.vcf.gz"
   
   output:
-  path("reference.geno"), emit: reference_geno
-  path("reference.site"), emit: reference_site
+  tuple path("reference.geno"), path("reference.site")
 
   script:
   """
@@ -70,20 +62,34 @@ process convert_geno {
 }
 
 process convert_geno2 {
-  debug true
   memory "64GB"
 
   input:
   path "study.vcf.gz"
   
   output:
-  path("study.geno"), emit: study_geno
-  path("study.site"), emit: study_site
+  tuple path("study.geno"), path("study.site")
 
 
   script:
   """
   ${params.path_to_laser}/vcf2geno/vcf2geno --inVcf study.vcf.gz --out study
+  """
+
+}
+
+process reference_PCA {
+  memory "32GB"
+
+  input:
+  tuple path("reference.geno"), path("reference.site")
+
+  output:
+  path "reference.RefPC.coord"
+
+  script:
+  """
+  ${params.path_to_laser}/laser -g reference.geno -k 20 -pca 1 -o reference
   """
 
 }
@@ -106,5 +112,7 @@ study_vcf = merge_study(vcfs.study_vcfs.collect())
 
 reference_geno = convert_geno(reference_vcf)
 study_geno = convert_geno2(study_vcf)
+
+reference_PC_coord = reference_PCA(reference_geno)
 
 }
