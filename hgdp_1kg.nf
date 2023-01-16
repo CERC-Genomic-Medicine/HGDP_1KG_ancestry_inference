@@ -1,7 +1,10 @@
-// requires vcf.gz format ( with index ) 
-params.input_ref = "/lustre06/project/rrg-vmooser/shared/gnomad.genomes.v3.1.2.hgdp_tgp/filtered_pruned/chr*.vcf.gz"
-params.input_study = "../VCFs-BQC19/chr*.vcf.gz"
-params.path_to_laser = "~/scratch/LASER-2.04"
+/*
+* Author: Peyton McClelland <peyton.mcclelland@mail.mcgill.ca>
+* Version: 1.0
+* Year: 2023
+*/
+
+params.nPCs = 20
 
 process intersect {
   input:
@@ -48,6 +51,7 @@ process merge_study {
 
 process convert_geno {
   memory "64GB"
+  time "1h"
   
   input:
   path "reference.vcf.gz"
@@ -63,6 +67,7 @@ process convert_geno {
 
 process convert_geno2 {
   memory "64GB"
+  time "2h"
 
   input:
   path "study.vcf.gz"
@@ -80,6 +85,7 @@ process convert_geno2 {
 
 process reference_PCA {
   memory "32GB"
+  time "1h"
 
   input:
   tuple path("reference.geno"), path("reference.site")
@@ -89,14 +95,38 @@ process reference_PCA {
 
   script:
   """
-  ${params.path_to_laser}/laser -g reference.geno -k 20 -pca 1 -o reference
+  ${params.path_to_laser}/laser -g reference.geno -k ${params.nPCs} -pca 1 -o reference
   """
 
 }
 
+process project {
+  memory "32GB"
+  time "2d"
+
+  input:
+  path "reference.RefPC.coord"
+  tuple path("reference.geno"), path("reference.site")
+  tuple path("study.geno"), path("study.site")
+
+  output:
+  path "trace.ProPC.coord"
+
+  script:
+  """
+  echo "STUDY_FILE study.geno" > trace.conf
+  echo "GENO_FILE reference.geno" >> trace.conf
+  echo "COORD_FILE reference.RefPC.coord" >> trace.conf
+  echo "DIM ${params.nPCs}" >> trace.conf
+
+  ${params.path_to_laser}/trace -p trace.conf
+
+  """
+
+}
 
 workflow {
-ref_ch = Channel.fromPath(params.input_ref, checkIfExists:true) \
+ref_ch = Channel.fromPath(params.input_reference, checkIfExists:true) \
     | map { file -> [ file.name.toString().tokenize('.').get(0), file, file + ".tbi"] }
 
 study_ch = Channel.fromPath(params.input_study, checkIfExists:true) \
@@ -114,5 +144,7 @@ reference_geno = convert_geno(reference_vcf)
 study_geno = convert_geno2(study_vcf)
 
 reference_PC_coord = reference_PCA(reference_geno)
+
+project(reference_PC_coord, reference_geno, study_geno)
 
 }
