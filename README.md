@@ -4,9 +4,6 @@
 - Nextflow
 - bcftools
 - LASER (download from <http://csg.sph.umich.edu//chaolong/LASER/> )
-  
-  *Extract the .tar.gz file with `tar -xzvf LASER-2.04.tar.gz`*
-  
 - Python virtual enviroment with pandas, numpy, sklearn
 
 
