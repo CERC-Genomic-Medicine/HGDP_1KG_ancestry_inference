@@ -5,6 +5,7 @@
 */
 
 params.nPCs = 20
+params.min_prob = 0
 params.seed = 11
 
 process intersect {
