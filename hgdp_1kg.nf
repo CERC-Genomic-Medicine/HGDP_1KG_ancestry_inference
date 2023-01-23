@@ -5,6 +5,7 @@
 */
 
 params.nPCs = 20
+params.seed = 11
 
 process intersect {
   input:
@@ -93,6 +94,8 @@ process reference_PCA {
   output:
   path "reference.RefPC.coord"
 
+  publishDir "output/", mode: "copy"
+
   script:
   """
   ${params.path_to_laser}/laser -g reference.geno -k ${params.nPCs} -pca 1 -o reference
@@ -112,6 +115,8 @@ process project {
   output:
   path "trace.ProPC.coord"
 
+  publishDir "output/", mode: "copy"
+
   script:
   """
   echo "STUDY_FILE study.geno" > trace.conf
@@ -122,6 +127,26 @@ process project {
   ${params.path_to_laser}/trace -p trace.conf
 
   """
+  
+}
+
+process infer_ancestry {
+  debug true 
+
+  input:
+  path "reference.RefPC.coord"
+  path "trace.ProPC.coord"
+
+  output:
+  path "predicted_ancestry.txt"
+  stdout emit: rf_log
+  
+  publishDir "output/", mode: "copy"
+
+  script:
+  """
+  rf_model.py -r reference.RefPC.coord -s trace.ProPC.coord -k ${params.nPCs} -p ${params.reference_pop} --min_prob ${params.min_prob} --seed ${params.seed}
+  """  
 
 }
 
@@ -145,6 +170,8 @@ study_geno = convert_geno2(study_vcf)
 
 reference_PC_coord = reference_PCA(reference_geno)
 
-project(reference_PC_coord, reference_geno, study_geno)
+study_proPC_coord = project(reference_PC_coord, reference_geno, study_geno)
+
+infer_ancestry(reference_PC_coord, study_proPC_coord)
 
 }
