@@ -8,7 +8,7 @@
 
 
 ## To run:
-
+Running the entire pipeline should take ~24h
 ### Input: Study and reference VCFs
 - Input VCFs should be split by chromosome and named starting with "chr{#}."
 - Input VCFs should be gzipped. 
@@ -16,8 +16,6 @@
 - Study and reference files can be in different locations. 
 ### Input: Reference population labels
 - Should be a CSV with an ID column and a population column ('genetic_region' for HGDP_TGP)
-
-### Should take ~20h
 
 
 ### Parameters
