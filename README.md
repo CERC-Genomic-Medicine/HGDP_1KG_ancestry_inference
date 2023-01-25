@@ -7,14 +7,17 @@
 - Python virtual enviroment with pandas, numpy, sklearn
 
 
-## Input
-### Study and reference VCFs
+## To run:
+
+### Input: Study and reference VCFs
 - Input VCFs should be split by chromosome and named starting with "chr{#}."
 - Input VCFs should be gzipped. 
 - Inout VCFs should be indxed with corresponding '.tbi' files in the same location. 
 - Study and reference files can be in different locations. 
-### Reference population labels
+### Input: Reference population labels
 - Should be a CSV with an ID column and a population column ('genetic_region' for HGDP_TGP)
+
+### Should take ~20h
 
 
 ### Parameters
