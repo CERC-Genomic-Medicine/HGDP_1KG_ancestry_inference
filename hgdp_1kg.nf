@@ -61,6 +61,8 @@ process convert_geno {
   output:
   tuple path("reference.geno"), path("reference.site")
 
+  publishDir "output/geno/", mode: "copy"
+
   script:
   """
   ${params.path_to_laser}/vcf2geno/vcf2geno --inVcf reference.vcf.gz --out reference
@@ -77,6 +79,7 @@ process convert_geno2 {
   output:
   tuple path("study.geno"), path("study.site")
 
+  publishDir "output/geno/", mode: "copy"
 
   script:
   """
