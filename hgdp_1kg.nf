@@ -115,17 +115,27 @@ process project {
   path "reference.RefPC.coord"
   tuple path("reference.geno"), path("reference.site")
   tuple path("study.geno"), path("study.site")
+  val job
+
 
   output:
-  path "trace.ProPC.coord"
+  path("projection_job_${job}.ProPC.coord"), emit: parallel_study_proPC_coord
 
-  publishDir "output/", mode: "copy"
-
-  script:
   """
+  n_samples=\$(cat study.geno | wc -l )
+  step=\$((\$n_samples/${params.n_jobs}))
+  first=\$(( ((${job}-1)*\$step) + 1 ))
+  last=\$((${job}*\$step))
+  if (( ${job} == ${params.n_jobs} ))
+  then
+  	last=\$n_samples
+  fi
   echo "STUDY_FILE study.geno" > trace.conf
   echo "GENO_FILE reference.geno" >> trace.conf
   echo "COORD_FILE reference.RefPC.coord" >> trace.conf
+  echo "FIRST_IND \$first" >> trace.conf
+  echo "LAST_IND \$last" >> trace.conf
+  echo "OUT_PREFIX projection_job_${job}" >> trace.conf
   echo "DIM ${params.nPCs}" >> trace.conf
 
   ${params.path_to_laser}/trace -p trace.conf
@@ -133,6 +143,27 @@ process project {
   """
   
 }
+
+process project_merge {
+
+ input:
+ path "projection_job_*.ProPC.coord"
+
+ output:
+ path "trace.ProPC.coord"
+
+ publishDir "output/", mode: "copy"
+
+ script:
+ """
+ head -n 1 projection_job_1.ProPC.coord >> trace.ProPC.coord
+ for i in projection_job_*.ProPC.coord
+ do
+ tail -n +2 \$i >> trace.ProPC.coord
+ done
+ """
+}
+
 
 process infer_ancestry {
   debug true 
@@ -169,12 +200,16 @@ vcfs = intersect(input)
 reference_vcf = merge_ref(vcfs.reference_vcfs.collect())
 study_vcf = merge_study(vcfs.study_vcfs.collect())
 
+parallelization = Channel.from( 1..params.n_jobs )
+
 reference_geno = convert_geno(reference_vcf)
 study_geno = convert_geno2(study_vcf)
 
 reference_PC_coord = reference_PCA(reference_geno)
 
-study_proPC_coord = project(reference_PC_coord, reference_geno, study_geno)
+parallel_study_proPC_coord = project(reference_PC_coord, reference_geno, study_geno, parallelization)
+
+study_proPC_coord=project_merge(parallel_study_proPC_coord.collect())
 
 infer_ancestry(reference_PC_coord, study_proPC_coord)
 
