@@ -13,7 +13,7 @@ Running the entire pipeline should take ~24h
 ### Input: Study and reference VCFs
 - Input VCFs should be split by chromosome and named starting with "chr{#}."
 - Input VCFs should be gzipped. 
-- Inout VCFs should be indexed with corresponding '.tbi' files in the same location. 
+- Input VCFs should be indexed with corresponding '.tbi' files in the same location. 
 - Study and reference files can be in different locations. 
 Input reference VCFs located at: `projects/rrg-vmooser/shared/HGDP_1KG/input_vcfs/`
 ### Input: Reference population labels
@@ -29,3 +29,4 @@ Specify the following parameters in the nextflow.config file:
 - `reference_pop` - Path to reference population file
 - `min_prob` - Minimum probability threshold for assigning population label w RF model 
 - `seed` - Random seed to use for random forest model (optional)
+- `n_jobs` - Number of jobs to use for parallelization of projection step
