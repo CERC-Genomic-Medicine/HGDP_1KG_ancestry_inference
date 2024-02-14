@@ -30,3 +30,21 @@ Specify the following parameters in the nextflow.config file:
 - `min_prob` - Minimum probability threshold for assigning population label w RF model 
 - `seed` - Random seed to use for random forest model (optional)
 - `n_jobs` - Number of jobs to use for parallelization of projection step
+
+
+## Optional support 
+
+#### {GRAPH}_Plot_PCA_Ancestry.py
+options: 
+
+| Short | Long        | Type    | Required | Default | Description                                        |
+|-------|-------------|---------|----------|---------|----------------------------------------------------|
+| `-P`  | `--Projected`  | `str`   | Yes      |         | Projected samples position                         |
+| `-R`  | `--Reference` | `str`   | Yes      |         | Reference samples position                         |
+| `-S`  | `--Study` | `str`   | Yes      |         | Infered Ethnicity projected samples               |
+| `-A`  | `--Ancestry`  | `str`   | Yes      |         | Reference Samples ethnicity                        |
+| `-c`  | `--selected` | `str`   | Yes      |         | Ethnicty to plot                                   |
+| `-T`  | `--Threshold` | `float` | Yes      |         | Reference Samples ethnicity threshold              |
+| `-n`  | `--PC       | `number`| `n`         | `int`   | Yes      |         | number of PC to plot                               |
+| `-l`  | `--label` | `str`   | No       | `Study` | label of the study                                 |
+|       | `--out`    | `str`   | No       | `output`| output                                             |
