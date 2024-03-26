@@ -64,7 +64,7 @@ To use the HGDP + 1KG callset (gnomAD v3.1.2) as your reference data, download [
 
 ## Optional support 
 
-#### Script: `plot_study_PCA.py` to plot resulting TRACE study PCs against reference data.
+#### Script: `plot_PCA.py` to plot resulting TRACE study PCs against reference data.
 Parameters to specify:
 
 | Short | Long        | Type    | Required | Default | Description                                        |
