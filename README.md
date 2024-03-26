@@ -53,11 +53,18 @@ To use the HGDP + 1KG callset (gnomAD v3.1.2) as your reference data, download [
   - `bcftools index -t chr${i}.gnomad.genomes.v3.1.2.hgdp_tgp.filtered_pruned.vcf.gz`
  ### Format the reference population data:
  - I.e. from the [sample metadata available here](https://gnomad.broadinstitute.org/downloads#v3-hgdp-1kg), extract the population descriptors (we used the harmonized `genetic_region` label)
- - Format of the population label file should be a CSV (comma-separated), with two columns (Sample ID and Population label)
+ - Format of the population label file should be a CSV (comma-separated), with two columns (Sample ID and Population label).
+   - The pipeline currently assumes the file will look like this:
+     ```
+     ID,genetic_region
+     HG00000,EUR
+     ...
+     ```
+   - But can easily be updated to accomodate other ID and population column labels. 
 
 ## Optional support 
 
-#### Script: `Plot_PCA_Ancestry.py` to plot resulting TRACE study PCs against reference data.
+#### Script: `plot_study_PCA.py` to plot resulting TRACE study PCs against reference data.
 Parameters to specify:
 
 | Short | Long        | Type    | Required | Default | Description                                        |
