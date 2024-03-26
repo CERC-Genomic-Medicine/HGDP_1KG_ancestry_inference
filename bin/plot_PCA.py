@@ -10,19 +10,19 @@ import argparse
 
 parser = argparse.ArgumentParser(description='Ancestry_projection')
 
-parser.add_argument('-P', '--Projected', metavar = 'File',dest='Proj',required = True, type=str, help='Projected samples position')
-parser.add_argument('-R','--Reference', metavar = 'File',dest='Ref',required = True, type=str, help='Reference samples position')
-parser.add_argument('-S', '--Study' , metavar = 'File',dest='Study',required = True, type=str, help='Infered Ethnicity projected samples')
-parser.add_argument('-A', '--Ancestry', metavar = 'File',dest='Ancestry', type=str,required = True, help='Reference Samples ethnicity')
-parser.add_argument('-c', '--selected', metavar = 'str',dest='Seleted', type=str,required = True, help='Ethnicty to plot')
-parser.add_argument('-T', '--Threshold', metavar = 'number',dest='Threshold', type=float,required = True, help='Reference Samples ethnicity')
-parser.add_argument('-n', '--PC', metavar = 'number',dest='n', type=int,required = True, help='number of PC to plot')
-parser.add_argument('-l', '--label', metavar = 'string',dest='study_name', type=str,required = False, default='Study', help='label of the study')
-parser.add_argument('--out', dest='output', default='output', type=str, help='output')
+parser.add_argument('-P', '--projected', metavar = 'File',dest='Proj',required = True, type=str, help='Projected study data PCA coordinates in ProPC.coord file from TRACE output.')
+parser.add_argument('-R','--reference', metavar = 'File',dest='Ref',required = True, type=str, help='Reference data PCA coordinates in RefPC.coord file from TRACE output.')
+parser.add_argument('-S', '--Study' , metavar = 'File',dest='Study',required = True, type=str, help='Predicted ancestry labels for study samples in tab-separated file (predicted_ancestry.txt).')
+parser.add_argument('-A', '--Ancestry', metavar = 'File',dest='Ancestry', type=str,required = True, help='Population labels for reference data.')
+parser.add_argument('-c', '--selected', metavar = 'str',dest='Seleted', type=str,required = True, help='Predicted ancestry group in study data to subset and plot.')
+parser.add_argument('-T', '--Threshold', metavar = 'number',dest='Threshold', type=float,required = True, help='Threshold of probability to use when subsetting by predicted ancestry.')
+parser.add_argument('-n', '--PC', metavar = 'number',dest='n', type=int,required = True, help='Number of PCs to plot.')
+parser.add_argument('-l', '--label', metavar = 'string',dest='study_name', type=str,required = False, default='Study', help='Study label to use when titling plot and legend.')
+parser.add_argument('--out', dest='output', default='output', type=str, help='Prefix of output image file name (output.png).')
 
 plt.rcParams.update({'font.size': 14})
 
-def Name_dictionnary(Ancestries):
+def Name_dictionary(Ancestries):
   print(Ancestries)
   NameDict_default={'CSA': 'Central South Asian','SAS': 'South Asian', 'EUR': 'European', 'EAS': 'East Asian', 'AMR': 'Ad Mixed American', 'AFR': 'African', 'MID' : 'Middle eastern', 'OCE' : 'Oceanian'}
   if Ancestries.issubset(set(NameDict_default.keys())) :
@@ -82,7 +82,7 @@ if __name__ == '__main__':
   ID_ploted = Infered.loc[(Infered['max_prob']>=args.Threshold) & (Infered['predicted_ancestry']==args.Seleted)].index
   Projected = Projected_whole.loc[ID_ploted,:]
   Ancestry_Ref = pd.read_csv(args.Ancestry,header=0, index_col=0)
-  NameDict=Name_dictionnary(set(Ancestry_Ref.genetic_region))
+  NameDict=Name_dictionary(set(Ancestry_Ref.genetic_region))
   color_dict=Color_dict(NameDict)
   dic=dict(zip(Ancestry_Ref.index,Ancestry_Ref.iloc[:, 0]))
   grid=find_factorial_grid_approx_prime(suite(args.n))
