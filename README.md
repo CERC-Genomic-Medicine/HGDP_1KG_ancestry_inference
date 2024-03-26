@@ -40,15 +40,22 @@ To use the HGDP + 1KG callset (gnomAD v3.1.2) as your reference data, download [
 - Perform LD pruning per chromosome.
   - E.g. `plink --indep-pairwise 1000 100 0.9 --vcf <filtered_vcf> --double-id --id-delim , --out chr${i}.plink`
   - `plink --vcf <filtered_vcf> --extract chr${i}.plink.prune.in --recode vcf-iid --out <filtered_pruned_vcf>`
-- _IMPORTANT:_ Rename gnomad files to begin with `chr#`. If needed, rename chromosomes to align with study data (see example file `rename_chrs.txt`).
+- _IMPORTANT:_ Rename gnomad files to begin with `chr#`. If needed, rename chromosomes to align with study data.
   - E.g. `bcftools annotate --rename-chrs rename_chrs.txt gnomad.genomes.v3.1.2.hgdp_tgp.chr${i}.filtered_pruned.vcf.gz -Oz -o chr${i}.gnomad.genomes.v3.1.2.hgdp_tgp.filtered_pruned.vcf.gz`
+  - An example `rename_chrs` will look something like this:
+    ```
+    1 chr1
+    2 chr2
+    3 chr3
+    ...
+    ```
 - Index all files.
   - `bcftools index -t chr${i}.gnomad.genomes.v3.1.2.hgdp_tgp.filtered_pruned.vcf.gz`
 
 ## Optional support 
 
-#### {GRAPH}_Plot_PCA_Ancestry.py
-options: 
+#### Script: `Plot_PCA_Ancestry.py` to plot resulting TRACE study PCs against reference data.
+Parameters to specify:
 
 | Short | Long        | Type    | Required | Default | Description                                        |
 |-------|-------------|---------|----------|---------|----------------------------------------------------|
