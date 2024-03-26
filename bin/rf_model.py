@@ -26,8 +26,8 @@ argparser.add_argument('-k', '--nPCs', type = int, required = False, help = 'Num
 argparser.add_argument('-p', '--reference_labels', required = True, help = 'Input file containing reference population labels')
 argparser.add_argument('-m','--min_prob', required = False, default = 0, type = float, help = 'Minimum probability threshold for assigning population label')
 argparser.add_argument('--seed', required = False, default = 11, type = int, help = 'Random seed')
-#argparser.add_argument('-id', '--ID-col', help = 'Name of ID column in input files', default='ID')
-#argparser.add_argument('-anc', '--ancestry_col', help = 'Name of ancestry column in input reference ancestry file', default='genetic_region')
+#argparser.add_argument('-i', '--ID-col', help = 'Name of ID column in input files', default='ID')
+#argparser.add_argument('-c', '--population_col', help = 'Name of population label column in input reference file', default='genetic_region')
 
 
 # In[ ]:
