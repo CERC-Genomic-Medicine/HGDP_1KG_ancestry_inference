@@ -42,7 +42,7 @@ To use the HGDP + 1KG callset (gnomAD v3.1.2) as your reference data, download [
   - `plink --vcf <filtered_vcf> --extract chr${i}.plink.prune.in --recode vcf-iid --out <filtered_pruned_vcf>`
 - _IMPORTANT:_ Rename gnomad files to begin with `chr#`. If needed, rename chromosomes to align with study data.
   - E.g. `bcftools annotate --rename-chrs rename_chrs.txt gnomad.genomes.v3.1.2.hgdp_tgp.chr${i}.filtered_pruned.vcf.gz -Oz -o chr${i}.gnomad.genomes.v3.1.2.hgdp_tgp.filtered_pruned.vcf.gz`
-  - An example `rename_chrs` will look something like this:
+  - An example `rename_chrs` file will look something like this:
     ```
     1 chr1
     2 chr2
@@ -51,6 +51,9 @@ To use the HGDP + 1KG callset (gnomAD v3.1.2) as your reference data, download [
     ```
 - Index all files.
   - `bcftools index -t chr${i}.gnomad.genomes.v3.1.2.hgdp_tgp.filtered_pruned.vcf.gz`
+ ### Format the reference population data:
+ - I.e. from the [sample metadata available here](https://gnomad.broadinstitute.org/downloads#v3-hgdp-1kg), extract the population descriptors (we used the harmonized `genetic_region` label)
+ - Format of the population label file should be a CSV (comma-separated), with two columns (Sample ID and Population label)
 
 ## Optional support 
 
