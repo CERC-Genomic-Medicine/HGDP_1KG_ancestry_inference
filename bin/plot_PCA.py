@@ -10,14 +10,14 @@ import argparse
 
 parser = argparse.ArgumentParser(description='Ancestry_projection')
 
-parser.add_argument('-P', '--projected', metavar = 'file', dest='Proj', required=True, type=str, help='Projected study data PCA coordinates in ProPC.coord file from TRACE output.')
-parser.add_argument('-R','--reference', metavar = 'file', dest='Ref', required=True, type=str, help='Reference data PCA coordinates in RefPC.coord file from TRACE output.')
-parser.add_argument('-S', '--study-ancestry' , metavar = 'file', dest='Study', required=True, type=str, help='Predicted ancestry labels for study samples in tab-separated file (predicted_ancestry.txt).')
-parser.add_argument('-A', '--ref-ancestry', metavar = 'File', dest='Ancestry', type=str, required=True, help='Population labels for reference data.')
-parser.add_argument('-c', '--selected', metavar = 'str',dest='Selected', type=str, required=True, help='Predicted ancestry group in study data to subset and plot.')
-parser.add_argument('-T', '--threshold', metavar = 'number',dest='Threshold', type=float,required=True, help='Threshold of probability to use when subsetting by predicted ancestry.')
-parser.add_argument('-n', '--nPC', metavar = 'number', dest='n', type=int, required=True, help='Number of PCs to plot.')
-parser.add_argument('-l', '--label', metavar = 'string',dest='study_name', type=str, required=False, default='Study', help='Study label to use when titling plot and legend.')
+parser.add_argument('-P', '--projected', metavar='FILE', dest='Proj', required=True, type=str, help='Projected study data PCA coordinates in ProPC.coord file from TRACE output.')
+parser.add_argument('-R','--reference', metavar='FILE', dest='Ref', required=True, type=str, help='Reference data PCA coordinates in RefPC.coord file from TRACE output.')
+parser.add_argument('-S', '--study-ancestry' , metavar='FILE', dest='Study', required=True, type=str, help='Predicted ancestry labels for study samples in tab-separated file (predicted_ancestry.txt).')
+parser.add_argument('-A', '--ref-ancestry', metavar='FILE', dest='Ancestry', type=str, required=True, help='Population labels for reference data.')
+parser.add_argument('-c', '--selected', dest='Selected', type=str, required=True, help='Predicted ancestry group in study data to subset and plot.')
+parser.add_argument('-T', '--threshold', dest='Threshold', type=float,required=True, help='Threshold of probability to use when subsetting by predicted ancestry.')
+parser.add_argument('-n', '--nPC', dest='n', type=int, required=True, help='Number of PCs to plot.')
+parser.add_argument('-l', '--label', metavar='STUDY', dest='study_name', type=str, required=False, default='Study', help='Study label to use when titling plot and legend.')
 parser.add_argument('--out', dest='output', default='output', type=str, help='Prefix of output image file name (output.png).')
 
 plt.rcParams.update({'font.size': 14})
