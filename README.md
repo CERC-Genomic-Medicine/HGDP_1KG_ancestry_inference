@@ -65,16 +65,21 @@ To use the HGDP + 1KG callset (gnomAD v3.1.2) as your reference data, download [
 ## Optional support 
 
 #### Script: `plot_PCA.py` to plot resulting TRACE study PCs against reference data.
-Parameters to specify:
+This is a script to take the output of the ancestry inference pipeline and:
+- Subset your study samples to the predicted ancestry group of interested (from `predicted_ancestry.txt` at your desired threshold of probability).
+- Take the projected PC coordinates for these samples (from `trace.ProPC.coord`) and the reference PC coordinates against which they are projected (`reference.RefPC.coord`)
+- Plot the top N PCs for your predicted ancestry data and reference data (with population labels).
 
-| Short | Long        | Type    | Required | Default | Description                                        |
-|-------|-------------|---------|----------|---------|----------------------------------------------------|
-| `-P`  | `--Projected`  | `str`   | Yes      |         | Projected samples position                         |
-| `-R`  | `--Reference` | `str`   | Yes      |         | Reference samples position                         |
-| `-S`  | `--Study` | `str`   | Yes      |         | Infered Ethnicity projected samples               |
-| `-A`  | `--Ancestry`  | `str`   | Yes      |         | Reference Samples ethnicity                        |
-| `-c`  | `--selected` | `str`   | Yes      |         | Ethnicty to plot                                   |
-| `-T`  | `--Threshold` | `float` | Yes      |         | Reference Samples ethnicity threshold              |
-| `-n`  | `--PC       | `number`| `n`         | `int`   | Yes      |         | number of PC to plot                               |
-| `-l`  | `--label` | `str`   | No       | `Study` | label of the study                                 |
-|       | `--out`    | `str`   | No       | `output`| output                                             |
+**Parameters to specify:**
+- `-P`,`--Projected` - Projected study data PCA coordinates (*output/trace.ProPC.coord*) 
+- `-R`,`--Reference` - Reference data PCA coordinates (*output/reference.RefPC.coord*)
+- `-S`,`--Study` - Predicted ancestry output for study samples (*output/predicted_ancestry.txt*)
+- `-A`,`--Ancestry` - Population labels for reference data
+- `-c`,`--selected` - Predicted ancestry group in study data to subset and plot
+- `-T`,`--Threshold` - Threshold of probability to use when subsetting by predicted ancestry (e.g. 0.5)
+- `-n`,`--PC` - Number of PCs to plot
+- `-l`,`--label` - Study label to use when titling plot and legend
+- `--out` - Prefix of output image file name (output.png)
+
+**Example command:**
+` python plot_PCA.py -P output/trace.ProPC.coord -R output/reference.RefPC.coord -S output/predicted_ancestry.txt -A genetic_region.csv -c CSA -T 0.80 -n4 -l STUDY --out figure `
