@@ -66,8 +66,8 @@ To use the HGDP + 1KG callset (gnomAD v3.1.2) as your reference data, download [
 
 #### Script: `plot_PCA.py` to plot resulting TRACE study PCs against reference data.
 Optional script to take the output of the ancestry inference pipeline and:
-- Subset your study samples to the predicted ancestry group of interested (from `predicted_ancestry.txt` at your desired threshold of probability).
-- Take the projected PC coordinates for these samples (from `trace.ProPC.coord`) and the reference PC coordinates against which they are projected (`reference.RefPC.coord`)
+- Subset your study samples to the predicted ancestry group of interest (from `predicted_ancestry.txt` at your desired threshold of probability).
+- Take the projected PC coordinates for these samples (from `trace.ProPC.coord`) and the reference PC coordinates against which they are projected (`reference.RefPC.coord`).
 - Plot the top N PCs for your predicted ancestry data and reference data (with population labels).
 
 **Parameters to specify:**
