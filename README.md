@@ -11,7 +11,7 @@
 ## To run:
 Running the entire pipeline should take ~24h
 ### Input: Study and reference VCFs
-- Input VCFs should be split by chromosome and named starting with "chr{#}."
+- Input VCFs should be split by chromosome and files should be named starting with "chr{#}."
 - Input VCFs should be gzipped. 
 - Input VCFs should be indexed with corresponding '.tbi' files in the same location. 
 - Study and reference files can be in different locations. 
@@ -40,7 +40,7 @@ To use the HGDP + 1KG callset (gnomAD v3.1.2) as your reference data, download [
 - Perform LD pruning per chromosome.
   - E.g. `plink --indep-pairwise 1000 100 0.9 --vcf <filtered_vcf> --double-id --id-delim , --out chr${i}.plink`
   - `plink --vcf <filtered_vcf> --extract chr${i}.plink.prune.in --recode vcf-iid --out <filtered_pruned_vcf>`
-- _IMPORTANT:_ Rename gnomad files to begin with `chr#`. If needed, rename chromosomes to align with study data.
+- _IMPORTANT:_ Rename gnomad files to begin with `chr#`. If needed, rename the actual chromosomes to align with study data (so that the merging step works).
   - E.g. `bcftools annotate --rename-chrs rename_chrs.txt gnomad.genomes.v3.1.2.hgdp_tgp.chr${i}.filtered_pruned.vcf.gz -Oz -o chr${i}.gnomad.genomes.v3.1.2.hgdp_tgp.filtered_pruned.vcf.gz`
   - An example `rename_chrs` file will look something like this:
     ```
