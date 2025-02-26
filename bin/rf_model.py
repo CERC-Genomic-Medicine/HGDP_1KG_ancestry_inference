@@ -80,9 +80,8 @@ if __name__ == '__main__':
     output.to_csv('./predicted_ancestry.txt', index=False, sep='\t')
     
     # print out results summary
-    result = pd.DataFrame(output.predicted_ancestry.value_counts())
+    result = pd.DataFrame(output.predicted_ancestry.value_counts()).reset_index()
     print("\n")
     for i in range(len(result.index)):
-        print(result.predicted_ancestry[i]," samples classified as ",result.index[i])
-    
+        print(result['count'][i]," samples classified as [",result.predicted_ancestry[i], "]")
 
