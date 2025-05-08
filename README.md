@@ -76,7 +76,7 @@ The output files are:
     - Columns: `popID`, `indivID`, and `PC1` ... `PC k`    
   - `trace.ProPC.coord` : output from TRACE: `k` estimated PC coordinates for the study samples (one sample per row), as projected onto the reference PC space. (`k` specified by `nPCs` parameter)
     - Columns: `popID`, `indivID`, `L`, `K`, `t`, `Z`, and `PC1` ... `PC k`
-      - See the [https://csg.sph.umich.edu/chaolong/LASER/TRACE_Manual.pdf](TRACE manual) (section 6.3) for more information on what these columns mean.
+      - See the [TRACE manual](https://csg.sph.umich.edu/chaolong/LASER/TRACE_Manual.pdf) (section 6.3) for more information on what these columns mean.
   - `predicted_ancestry.txt` : the results of the RF model script, reporting a predicted ancestry and probability scores for each sample (one sample per row).
     - Columns: `indivID`, `predicted_ancestry`, `prob_{LABEL}` for each ancestry label reported in the reference data, and `max_prob`
     - `predicted_ancestry` reports the predicted ancestry label for each sample as determined by the RF model (the label with the highest prediction probability estimate). If the probability of prediction was below the `min_prob` threshold, this value will be set to "undefined".
