@@ -22,7 +22,7 @@ Running the entire pipeline should take ~24h.
 - Input VCFs should be gzipped. 
 - Input VCFs should be indexed with corresponding '.tbi' files in the same location. 
 - Study and reference files can be in different locations. 
-Input reference VCFs located [internally] at: `<cerc_shared./HGDP_1KG/input_vcfs/`
+Input reference VCFs located [internally] at: `<cerc_shared>/HGDP_1KG/input_vcfs/`
 ### Input: Reference population labels
 - Should be a CSV with an ID column and a population column ('genetic_region' for HGDP_TGP)
 Reference population file located at: `<cerc_shared>/HGDP_1KG/hgdp_tgp_meta_genetic_region.csv`
